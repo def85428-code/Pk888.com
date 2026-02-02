@@ -4,21 +4,28 @@ module.exports = async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Content-Type', 'text/html');
 
+    // Betgames ka stable demo link
+    const targetUrl = "https://demo.betgames.tv/ext/odr/test_iframe?game=7&partner=demo";
+
     try {
-        // Naya Alternate Link (Betgames ka dusra server)
-        const gameUrl = "https://tpp.betgames.tv/ext/odr/test_iframe?game=7&partner=demo";
-        
-        const response = await axios.get(gameUrl, {
-            timeout: 10000, // 10 second ka wait
+        const response = await axios.get(targetUrl, {
             headers: { 
                 'Referer': 'https://betgames.tv/',
-                'User-Agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36'
-            }
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            },
+            timeout: 5000
         });
         
+        // Game ka pura HTML code bhej rahe hain
         res.status(200).send(response.data);
     } catch (e) {
-        // Agar ye bhi na chale toh humein error ka sahi pata chalega
-        res.status(500).send("Server Busy. Please Refresh Screen.");
+        // Agar Betgames block kare, toh hum backup text dikhayenge
+        res.status(200).send(`
+            <div style="color:gold; text-align:center; padding-top:50px; background:#000; height:100vh;">
+                <h3>Game is Loading...</h3>
+                <p>Please wait 5 seconds and refresh.</p>
+                <script>setTimeout(() => { location.reload(); }, 5000);</script>
+            </div>
+        `);
     }
 };
