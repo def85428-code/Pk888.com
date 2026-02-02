@@ -6,7 +6,12 @@ module.exports = async (req, res) => {
     res.setHeader('Content-Type', 'text/html');
 
     try {
-        const gameUrl = "https://demo.betgames.tv/ext/odr/test_iframe?game=7";
+        <iframe src="https://pk888-com.vercel.app/api" 
+        style="width:100%; height:100vh; border:none;"
+        allow="autoplay; fullscreen"
+        referrerpolicy="no-referrer">
+</iframe>
+;
         const response = await axios.get(gameUrl, {
             headers: { 
                 'Referer': 'https://betgames.tv/',
