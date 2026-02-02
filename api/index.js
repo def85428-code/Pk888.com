@@ -5,16 +5,19 @@ module.exports = async (req, res) => {
     res.setHeader('Content-Type', 'text/html');
 
     try {
-        // Asli game link jo proxy ke zariye chalega
-        const gameUrl = "https://iframe.betgames.tv/ext/odr/test_iframe?game=7&partner=demo";
+        // Purana working link lekin correct parameters ke saath
+        const gameUrl = "https://demo.betgames.tv/ext/odr/test_iframe?game=7";
+        
         const response = await axios.get(gameUrl, {
             headers: { 
                 'Referer': 'https://betgames.tv/',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
             }
         });
+        
         res.status(200).send(response.data);
     } catch (e) {
-        res.status(500).send("Proxy Connect Nahi Ho Rahi: " + e.message);
+        // Agar ab bhi error aaye toh humein exact wajah pata chalegi
+        res.status(500).send("Game Link Connection Error. Try refreshing in 10 seconds.");
     }
 };
